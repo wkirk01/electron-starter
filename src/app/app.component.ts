@@ -21,9 +21,11 @@ export class AppComponent {
 
   openDialog() {
     this.electronService.remote.dialog.showOpenDialog({ properties: ['openFile', 'openDirectory', 'multiSelections'] }, (filepaths) => {
-      let text = this.fs.readFileSync(filepaths[0], "utf-8")
-      this.text = text;
-      this.cd.detectChanges();
+      if (filepaths) {
+        let text = this.fs.readFileSync(filepaths[0], "utf-8")
+        this.text = text;
+        this.cd.detectChanges(); //we need to detech changes because we've left angular's zone with the fs call. 
+      }
     })
   }
 

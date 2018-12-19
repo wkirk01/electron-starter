@@ -2,23 +2,25 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
 
-let win
+require('electron-reload')(__dirname);
+
+let window
 
 function createWindow() {
-    win = new BrowserWindow({ width: 750, height: 750, frame: true })
+    window = new BrowserWindow({ width: 750, height: 750, frame: true })
 
     // load the dist folder from Angular
-    win.loadURL(url.format({
+    window.loadURL(url.format({
         pathname: path.join(__dirname, 'dist/index.html'),
         protocol: 'file:',
         slashes: true
     }))
 
     // Open the DevTools optionally:
-    win.webContents.openDevTools()
+    window.webContents.openDevTools()
 
-    win.on('closed', () => {
-        win = null
+    window.on('closed', () => {
+        window = null
     })
 }
 
@@ -32,7 +34,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-    if (win === null) {
+    if (window === null) {
         createWindow()
     }
 })

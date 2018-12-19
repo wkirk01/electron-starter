@@ -1,3 +1,5 @@
-<button mat-button (click)="openDialog()" class="button">Click</button>
+<div class="container">
+    <button mat-button (click)="openDialog()">Open dialog</button>
 
-<h1 [innerText]="text"></h1>
+    <p [innerText]="text || 'Choose a file and the text will be shown here.' " class="text"></p>
+</div>
