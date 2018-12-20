@@ -1,5 +1,6 @@
 <div class="container">
-    <button mat-button (click)="openDialog()">Open dialog</button>
-
-    <p [innerText]="text || 'Choose a file and the text will be shown here.' " class="text"></p>
+    <textarea #textarea class="uk-textarea" rows="5" placeholder="Textarea"></textarea>
+    <button mat-button class="uk-margin-top" (click)="selectDirectory()">Select directory</button>
+    <button mat-button class="uk-margin-top" (click)="saveFile(textarea.value)">Save file</button>
+    <p *ngIf="directory">Saving file to: {{directory}}</p>
 </div>
