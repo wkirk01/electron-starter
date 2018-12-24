@@ -1,6 +1,7 @@
 <div class="container">
-    <textarea #textarea class="uk-textarea" rows="5" placeholder="Textarea"></textarea>
+    <textarea #textarea class="uk-textarea" rows="10" placeholder="Textarea"></textarea>
+    <button mat-button class="uk-margin-top" (click)="fetchRepos()">Fetch repos</button>
     <button mat-button class="uk-margin-top" (click)="selectDirectory()">Select directory</button>
-    <button mat-button class="uk-margin-top" (click)="saveFile(textarea.value)">Save file</button>
-    <p *ngIf="directory">Saving file to: {{directory}}</p>
+    <button [disabled]="!directory" mat-button class="uk-margin-top" (click)="saveFile(textarea.value)">Save file</button>
+    <p>Saving file to: {{directory || 'No location selected'}}</p>
 </div>

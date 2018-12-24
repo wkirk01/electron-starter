@@ -1,4 +1,8 @@
-import { Component, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+
+import { HttpClient } from '@angular/common/http';
+
+import { map } from 'rxjs/operators'
 
 import { ElectronService } from 'ngx-electron';
 
@@ -9,12 +13,14 @@ import { ElectronService } from 'ngx-electron';
 })
 export class AppComponent {
 
+  @ViewChild('textarea') textArea: ElementRef;
+
   fs: any;
   path: any;
 
   directory: string;
 
-  constructor(private cd: ChangeDetectorRef, private electronService: ElectronService) {
+  constructor(private cd: ChangeDetectorRef, private electronService: ElectronService, private http: HttpClient) {
     this.fs = electronService.remote.require('fs');
     this.path = electronService.remote.require('path');
   }
@@ -29,10 +35,23 @@ export class AppComponent {
   }
 
   saveFile(text: string) {
+    if (!this.directory) { return }
     const data = new Uint8Array(Buffer.from(text));
     this.fs.writeFile(this.path.join(this.directory, '/file.txt'), data, (err) => {
       if (err) throw err;
     });
+  }
+
+  fetchRepos() {
+    this.http.get<any>('https://api.github.com/search/repositories?q=angular')
+      .pipe(
+        map(data => data.items),
+      )
+
+      .subscribe(repos => {
+        this.textArea.nativeElement.value = repos.map(repo => repo.url).join("\n")
+      })
+
   }
 
 }
