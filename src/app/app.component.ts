@@ -13,11 +13,10 @@ import { ElectronService } from 'ngx-electron';
 })
 export class AppComponent {
 
-  @ViewChild('textarea') textArea: ElementRef;
-
   fs: any;
   path: any;
 
+  @ViewChild('textarea') textArea: ElementRef;
   directory: string;
 
   constructor(private cd: ChangeDetectorRef, private electronService: ElectronService, private http: HttpClient) {
@@ -47,11 +46,9 @@ export class AppComponent {
       .pipe(
         map(data => data.items),
       )
-
       .subscribe(repos => {
         this.textArea.nativeElement.value = repos.map(repo => repo.url).join("\n")
       })
-
   }
 
 }
